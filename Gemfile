@@ -52,4 +52,4 @@ end
 
 gem 'jsonapi-serializer'
 gem 'jsom-pagination'
-gem 'devise'
+gem 'jwt', "2.4.1"

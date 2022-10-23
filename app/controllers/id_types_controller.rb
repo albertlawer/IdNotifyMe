@@ -1,4 +1,5 @@
 class IdTypesController < ApplicationController
+  before_action :authentication
   before_action :set_id_type, only: [:show, :update]
 
   def index
