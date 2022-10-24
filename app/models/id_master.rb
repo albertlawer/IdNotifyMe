@@ -1,0 +1,2 @@
+class IdMaster < ApplicationRecord
+end
