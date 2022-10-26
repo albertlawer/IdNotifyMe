@@ -58,7 +58,28 @@ RSpec.describe "IdMasters", type: :request do
         post "/id_masters", params: invalid_params, headers: {HTTP_AUTHORIZATION: encode_user_data(a_user)}, as: :json
       }.to change(IdMaster, :count).by(0)
     end
+  end
 
+  describe 'show /id_master' do
+    it 'returns http success' do
+      new_user = create :user
+      new_card = create(:id_master, user: new_user)
+      get "/id_masters/#{new_card.id}", headers: {HTTP_AUTHORIZATION: encode_user_data(new_user)}
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe 'update /id_master' do
+    it "retuns http success" do
+      a_new_card = create(:id_master, user: a_user)
+      puts "+++++++++++++++++++++++++++++++"
+      puts a_new_card.inspect
+      puts ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+      puts valid_params
+      puts "+++++++++++++++++++++++++++++++"
+      put "/id_masters/#{a_new_card.id}", params: valid_params, headers: {HTTP_AUTHORIZATION: encode_user_data(a_user)} ,as: :json
+      expect(response).to have_http_status(:success)
+    end
   end
 
 end

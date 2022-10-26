@@ -1,10 +1,15 @@
 class IdMastersController < ApplicationController
   before_action :authentication
   before_action :get_user
+  before_action :set_id_master, only: [:show,:update]
 
   def index
     @id_masters = IdMaster.where(user_id: @user.id)
     render json: serialize.new(@id_masters)
+  end
+
+  def show
+    render json: serialize.new(@IdMaster)
   end
 
   def create
@@ -18,6 +23,13 @@ class IdMastersController < ApplicationController
     end
   end
 
+  def update
+    if @IdMaster.update(id_masters_params)
+      render json: serialize.new(@IdMaster)
+    else
+      render json: {message: "Cannot update", errors: _id_masters.errors }, status: :unprocessable_entity
+    end
+  end
 
 
   private
@@ -29,6 +41,10 @@ class IdMastersController < ApplicationController
       token = request.headers["HTTP_AUTHORIZATION"]
       _user_data = token_data(token)
       @user = User.find(_user_data[0]["user_id"])
+    end
+
+    def set_id_master
+      @IdMaster = IdMaster.where(user_id: @user.id, id: params[:id]) 
     end
 
     def id_masters_params
