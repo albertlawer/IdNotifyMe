@@ -9,7 +9,7 @@ FactoryBot.define do
     second_intermidiary_expiry { "2022-10-24" }
     third_intermidiary_expiry { "2022-10-24" }
     exipry_date { "2022-10-24" }
-    user_id { 1 }
+    association :user
     front_image { "MyText" }
     back_image { "MyText" }
     status { false }

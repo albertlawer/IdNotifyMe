@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_23_060722) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_24_095919) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "id_masters", force: :cascade do |t|
+    t.integer "id_type_id"
+    t.string "name_on_id"
+    t.string "id_number"
+    t.string "reference_number"
+    t.date "issue_date"
+    t.date "first_intermidiary_expiry"
+    t.date "second_intermidiary_expiry"
+    t.date "third_intermidiary_expiry"
+    t.date "exipry_date"
+    t.integer "user_id"
+    t.text "front_image"
+    t.text "back_image"
+    t.boolean "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "id_types", force: :cascade do |t|
     t.string "name"

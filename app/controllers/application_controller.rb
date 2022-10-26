@@ -6,8 +6,9 @@ class ApplicationController < ActionController::API
         if token.nil?
             render json: {message: "Missing Token, Please add token to the headers to access"}, status: :unauthorized
         else
-            if !decode_token(token)
-                render json: {message: "Invalid Token, Please add token to the headers to access"}, status: :unauthorized
+            theResp = decode_token(token)
+            if !theResp[0]
+                render json: {message: theResp[1]}, status: :unauthorized
             end
         end
     end
@@ -26,22 +27,26 @@ class ApplicationController < ActionController::API
         return token
     end
 
-    
+
 
     def decode_token(token)
         unless token
-          return false
+          return [false,""]
         end
     
         token.gsub!('Bearer ','')
         begin
           decoded_token = JWT.decode token, SECRET, true
-          return true
-        rescue JWT::DecodeError
-            render json: {message: "Invalid Token, Please enter correct token"}, status: :unauthorized
-            Rails.logger.warn "Error decoding the JWT: "+ e.to_s
+          return [true,""]
+        rescue JWT::DecodeError => e
+            return [false,"Error decoding the JWT: "+ e.to_s]
         end
-        false
+    end
+
+    def token_data(token)
+        token.gsub!('Bearer ','')
+        decoded_token = JWT.decode token, SECRET, true
+        return decoded_token
     end
 
 end
